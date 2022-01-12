@@ -25,10 +25,10 @@ class LoginView(APIView):
         user = User.objects.filter(email=email).first()
 
         if user is None:
-            raise AuthenticationFailed('User not found!')
+            raise AuthenticationFailed('User not found')
 
         if not user.check_password(password):
-            raise AuthenticationFailed('Incorrect password!')
+            raise AuthenticationFailed('Incorrect password')
 
         payload = {
             'id': user.id,
@@ -37,7 +37,7 @@ class LoginView(APIView):
         }
 
         token = jwt.encode(payload, 'secret',
-                           algorithm='HS256').decode('utf-8')
+                           algorithm='HS256')
 
         response = Response()
 
@@ -57,9 +57,9 @@ class UserView(APIView):
             raise AuthenticationFailed('Unauthenticated!')
 
         try:
-            payload = jwt.decode(token, 'secret', algorithm=['HS256'])
+            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
         except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated!')
+            raise AuthenticationFailed('Unauthenticated')
 
         user = User.objects.filter(id=payload['id']).first()
         serializer = UserSerializer(user)
@@ -71,6 +71,6 @@ class LogoutView(APIView):
         response = Response()
         response.delete_cookie('jwt')
         response.data = {
-            'message': 'success'
+            'message': 'logout successfully'
         }
         return response

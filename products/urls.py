@@ -1,13 +1,10 @@
 from django.urls import path
-from . import api
+from .views import GetProducts, ProductsApi
 
 app_name = 'products'
 
 urlpatterns = [
-    # path('signup/', views.get_user_type , name = 'signup'),
-    #APIS
-    path('signup/',api.UserSignupView.as_view(),name="signup"),
-    path('authenticated/',api.CkeckAuthenticatedView.as_view(),name="authenticated"),
-    path('login/',api.LoginView.as_view(),name="login"),
-  
+    path('api/products/', GetProducts.as_view()),
+    # path('api/addproduct/', AddProduct.as_view()),
+    path('api/v2/products/', ProductsApi.as_view()),
 ]
