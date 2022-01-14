@@ -3,7 +3,7 @@
 # from django.middleware.csrf import CsrfViewMiddleware
 # from rest_framework import exceptions
 # from django.conf import settings
-# from .models import User
+# from .models import MyUser
 
 
 # class CSRFCheck(CsrfViewMiddleware):
@@ -30,7 +30,7 @@
 #         except IndexError:
 #             raise exceptions.AuthenticationFailed('Token prefix missing')
 
-#         user = User.objects.filter(id=payload['user_id']).first()
+#         user = MyUser.objects.filter(id=payload['user_id']).first()
 #         if user is None:
 #             raise exceptions.AuthenticationFailed('User not found')
 

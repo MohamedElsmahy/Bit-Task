@@ -3,12 +3,12 @@ from rest_framework.views import APIView
 # from rest_framework.exceptions import AuthenticationFailed
 # import jwt
 # import datetime
-# from .models import User
+# from .models import MyUser
 from .serializers import UserSerializer
 from rest_framework.response import Response
 # from rest_framework import exceptions
-from rest_framework.permissions import AllowAny
-from rest_framework.decorators import api_view  # ,permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+# from rest_framework.decorators import api_view
 # from django.views.decorators.csrf import ensure_csrf_cookie
 # from .auth import generate_access_token, generate_refresh_token
 # from django.views.decorators.csrf import csrf_protect
@@ -17,11 +17,11 @@ from rest_framework.decorators import api_view  # ,permission_classes
 # Create your views here.
 
 
-@api_view(['GET'])
-def user(request):
-    user = request.user
-    serialized_user = UserSerializer(user).data
-    return Response({'user': serialized_user})
+# @api_view(['GET'])
+# def user(request):
+#     user = request.user
+#     serialized_user = UserSerializer(user).data
+#     return Response({'user': serialized_user})
 
 
 ''' Registeration '''
@@ -43,7 +43,7 @@ class RegisterView(APIView):
 #         email = request.data['email']
 #         password = request.data['password']
 
-#         user = User.objects.filter(email=email).first()
+#         user = MyUser.objects.filter(email=email).first()
 
 #         if user is None:
 #             raise AuthenticationFailed('User not found')
@@ -69,22 +69,19 @@ class RegisterView(APIView):
 #         return response
 
 
-# class UserView(APIView):
+class UserView(APIView):
+    permission_classes = (IsAuthenticated,)
 
-#     def get(self, request):
-#         token = request.COOKIES.get('jwt')
-
-#         if not token:
-#             raise AuthenticationFailed('Unauthenticated!')
-
-#         try:
-#             payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-#         except jwt.ExpiredSignatureError:
-#             raise AuthenticationFailed('Unauthenticated')
-
-#         user = User.objects.filter(id=payload['id']).first()
-#         serializer = UserSerializer(user)
-#         return Response(serializer.data)
+    def get(self, request):
+        content = {
+            'id': request.user.id,
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'username': request.user.username,
+            'email': request.user.email,
+            'password': request.user.password,
+        }
+        return Response(content)
 
 
 ''' Login API '''
@@ -93,7 +90,6 @@ class RegisterView(APIView):
 # @permission_classes([AllowAny])
 # @ensure_csrf_cookie
 # def login_view(request):
-#     # User = get_user_model()
 #     email = request.data.get('email')
 #     password = request.data.get('password')
 #     response = Response()
@@ -101,7 +97,7 @@ class RegisterView(APIView):
 #         raise exceptions.AuthenticationFailed(
 #             'username and password required')
 
-#     user = User.objects.filter(email=email).first()
+#     user = MyUser.objects.filter(email=email).first()
 #     if(user is None):
 #         raise exceptions.AuthenticationFailed('user not found')
 #     if (not user.check_password(password)):

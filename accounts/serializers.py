@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import MyUser
 
 
 class StringSerializer(serializers.StringRelatedField):
@@ -9,7 +9,7 @@ class StringSerializer(serializers.StringRelatedField):
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = MyUser
         fields = ['id', 'first_name', 'last_name',
                   'username', 'email', 'password']
         # for hiding password to be serialize in postman
