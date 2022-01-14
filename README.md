@@ -68,28 +68,28 @@ To verify that the API is working, you can use postman to test requests, If you 
 
 **Registeration API test :**
 
-![Screenshot Registeration](screenshots/registeration.png)
+![Screenshot Registeration](https://github.com/MohamedElsmahy/Bit-Task/blob/main/screenshots/registeration.PNG)
 
 **Login API with simple JWT test :**
 
-![Screenshot Login](screenshots/login.png)
+![Screenshot Login](https://github.com/MohamedElsmahy/Bit-Task/blob/main/screenshots/login.PNG)
 
 **Bearer Token Autherization to APIs which need access token :**
 
-![Screenshot Bearer](screenshots/Bearer_Token.png)
+![Screenshot Bearer](https://github.com/MohamedElsmahy/Bit-Task/blob/main/screenshots/Bearer_Token.PNG)
 
 **loged in user can add his products :**
 
-![Screenshot Add_Product](screenshots/Add_Products.png)
+![Screenshot Add_Product](https://github.com/MohamedElsmahy/Bit-Task/blob/main/screenshots/Add_Products.PNG)
 
 **Get user data :**
 
-![Screenshot User](screenshots/Get_User.png)
+![Screenshot User](https://github.com/MohamedElsmahy/Bit-Task/blob/main/screenshots/Get_User.PNG)
 
 **Get user products data :**
 
-![Screenshot User_Products](screenshots/Get_User_Products.png)
+![Screenshot User_Products](https://github.com/MohamedElsmahy/Bit-Task/blob/main/screenshots/Get_User_Products.PNG)
 
 **All users can see all products data :**
 
-![Screenshot User_Products](screenshots/All_Products.png)
+![Screenshot User_Products](https://github.com/MohamedElsmahy/Bit-Task/blob/main/screenshots/All_Products.PNG)
