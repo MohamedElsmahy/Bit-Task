@@ -1,4 +1,4 @@
-# from accounts.serializers import UserSerializer
+from accounts.serializers import UserSerializer
 from rest_framework import serializers
 from .models import Product
 
@@ -9,7 +9,7 @@ class StringSerializer(serializers.StringRelatedField):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    # seller = UserSerializer()
+    seller = UserSerializer()
 
     class Meta:
         model = Product

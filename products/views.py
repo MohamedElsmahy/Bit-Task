@@ -18,41 +18,52 @@ from rest_framework.response import Response
 
 ''' Generics Viwes '''
 
+# All products
 
-class ProductsApi(generics.ListCreateAPIView):
+
+class ProductsApi(generics.ListAPIView):
     permission_classes = (permissions.AllowAny,)
     model = Product
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
+# class AddProductsApi(generics.CreateAPIView):
+#     permission_classes = (permissions.IsAuthenticated,)
+#     model = Product
+#     serializer_class = ProductSerializer
+
+
 ''' Class Based Viwes '''
+
+# Products of specific User
 
 
 class GetProducts(APIView):
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, format=None):
         try:
-            products = Product.objects.all()
+            user = self.request.user
+            products = Product.objects.filter(seller=user)
             products = ProductSerializer(products, many=True)
             return Response({"products": products.data})
         except Exception:
             return Response({'error': "error while get products"})
 
 
-# class AddProduct(APIView):
-#     permission_classes = (permissions.AllowAny,)
+class AddProduct(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
 
-#     def post(self, request, format=None):
-#         user = self.request.user
-#         data = self.request.data
-#         try:
-#             Product.objects.create(
-#                 name=data["name"],
-#                 price=data["price"],
-#                 seller=user,
-#             )
-#             return Response({'success': "Product added successfully"})
-#         except Exception as e:
-#             return Response({'error': e.args})
+    def post(self, request, format=None):
+        user = self.request.user
+        data = self.request.data
+        try:
+            Product.objects.create(
+                name=data["name"],
+                price=data["price"],
+                seller=user,
+            )
+            return Response({'success': "Product added successfully"})
+        except Exception as e:
+            return Response({'error': e.args})

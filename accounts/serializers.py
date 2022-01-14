@@ -12,9 +12,12 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'first_name', 'last_name',
                   'username', 'email', 'password']
+        # for hiding password to be serialize in postman
         extra_kwargs = {
             'password': {'write_only': True}
         }
+
+    # for saving password in hash form
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
