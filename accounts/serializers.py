@@ -8,13 +8,14 @@ class StringSerializer(serializers.StringRelatedField):
 
 
 class UserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = MyUser
         fields = ['id', 'first_name', 'last_name',
                   'username', 'email', 'password']
         # for hiding password to be serialize in postman
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'write_only': True},
         }
 
     # for saving password in hash form

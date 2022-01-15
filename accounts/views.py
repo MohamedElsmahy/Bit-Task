@@ -1,13 +1,13 @@
 from rest_framework.views import APIView
+from .serializers import UserSerializer
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated
 # from rest_framework.response import Response
 # from rest_framework.exceptions import AuthenticationFailed
 # import jwt
 # import datetime
 # from .models import MyUser
-from .serializers import UserSerializer
-from rest_framework.response import Response
 # from rest_framework import exceptions
-from rest_framework.permissions import AllowAny, IsAuthenticated
 # from rest_framework.decorators import api_view
 # from django.views.decorators.csrf import ensure_csrf_cookie
 # from .auth import generate_access_token, generate_refresh_token
@@ -24,7 +24,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 #     return Response({'user': serialized_user})
 
 
-''' Registeration '''
+''' Registeration API '''
 
 
 class RegisterView(APIView):
@@ -36,6 +36,23 @@ class RegisterView(APIView):
         serializer.save()
         return Response(serializer.data)
 
+
+''' User data API '''
+
+
+class UserView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        content = {
+            'id': request.user.id,
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'username': request.user.username,
+            'email': request.user.email,
+            'password': request.user.password,
+        }
+        return Response(content)
 
 # class LoginView(APIView):
 #     permission_classes = (AllowAny,)
@@ -53,7 +70,8 @@ class RegisterView(APIView):
 
 #         payload = {
 #             'id': user.id,
-#             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+#             'exp': datetime.datetime.utcnow() +
+#                   datetime.timedelta(minutes=60),
 #             'iat': datetime.datetime.utcnow()
 #         }
 
@@ -67,21 +85,6 @@ class RegisterView(APIView):
 #             'jwt': token
 #         }
 #         return response
-
-
-class UserView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request):
-        content = {
-            'id': request.user.id,
-            'first_name': request.user.first_name,
-            'last_name': request.user.last_name,
-            'username': request.user.username,
-            'email': request.user.email,
-            'password': request.user.password,
-        }
-        return Response(content)
 
 
 ''' Login API '''
@@ -108,7 +111,8 @@ class UserView(APIView):
 #     access_token = generate_access_token(user)
 #     refresh_token = generate_refresh_token(user)
 
-#     response.set_cookie(key='refreshtoken', value=refresh_token, httponly=True)
+#     response.set_cookie(key='refreshtoken', value=refresh_token,
+#       httponly=True)
 #     response.data = {
 #         'access_token': access_token,
 #         'user': serialized_user,
